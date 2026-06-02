@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সহজে বাংলা কারচিহ্ন শিখি</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        p {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1000px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 120px;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: #00a8cc;
+            background-color: #f0fcfc;
+        }
+
+        .letter {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #008080;
+            user-select: none;
+        }
+
+        /* বাচ্চাদের জন্য আকর্ষণীয় রঙের বর্ডার */
+        .card:nth-child(1n) { border-bottom: 6px solid #ff6b6b; }
+        .card:nth-child(2n) { border-bottom: 6px solid #4dadf7; }
+        .card:nth-child(3n) { border-bottom: 6px solid #32b67a; }
+        .card:nth-child(4n) { border-bottom: 6px solid #f7b731; }
+        .card:nth-child(5n) { border-bottom: 6px solid #a55eea; }
+
+        /* স্পিকার আইকন */
+        .speaker-icon {
+            font-size: 1rem;
+            color: #bdc3c7;
+            margin-top: 5px;
+        }
+        .card:hover .speaker-icon {
+            color: #00a8cc;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>এসো বাংলা কারচিহ্ন শিখি! 🌟</h1>
+    <p>যেকোনো অক্ষরের ওপর ক্লিক করে তার উচ্চারণ শোনো</p>
+
+    <div class="container">
+        <div class="card" onclick="speak('কা', 'ক আকারে কা')"><div class="letter">কা</div><div class="speaker-icon">🔊</div></div>
+        <div class="card" onclick="speak('কি', 'ক রসই কারে কি')"><div class="letter">কি</div><div class="speaker-icon">🔊</div></div>
+        <div class="card" onclick="speak('কী', 'ক দীর্ঘই কারে কী')"><div class="letter">কী</div><div class="speaker-icon">🔊</div></div>
+        <div class="card" onclick="speak('কু', 'ক রসু কারে কু')"><div class="letter">কু</div><div class="speaker-icon">🔊</div></div>
+        <div class="card" onclick="speak('কূ', 'ক দীর্ঘু কারে কূ')"><div class="letter">কূ</div><div class="speaker-icon">🔊</div></div>
+        <div class="card" onclick="speak('কৃ', 'ক ঋ কারে কৃ')"><div class="letter">কৃ</div><div class="speaker-icon">🔊</div></div>
+        <div class="card" onclick="speak('কে', 'ক এ কারে কে')"><div class="letter">কে</div><div class="speaker-icon">🔊</div></div>
+        <div class="card" onclick="speak('কৈ', 'ক ওই কারে কৈ')"><div class="letter">কৈ</div><div class="speaker-icon">🔊</div></div>
+        <div class="card" onclick="speak('কো', 'ক ও কারে কো')"><div class="letter">কো</div><div class="speaker-icon">🔊</div></div>
+        <div class="card" onclick="speak('কৌ', 'ক ঔ কারে কৌ')"><div class="letter">কৌ</div><div class="speaker-icon">🔊</div></div>
+    </div>
+
+    <script>
+        function speak(text, spelling) {
+            // যদি ব্রাউজার স্পিচ সাপোর্ট করে
+            if ('speechSynthesis' in window) {
+                // আগের কোনো সাউন্ড চালু থাকলে তা বন্ধ করবে
+                window.speechSynthesis.cancel();
+
+                // প্রথমে বানান করে বলবে (যেমন: ক আকারে কা), তারপর মূল উচ্চারণ বলবে
+                let textToSpeak = spelling + ". " + text;
+                let utterance = new SpeechSynthesisUtterance(textToSpeak);
+                
+                utterance.lang = 'bn-IN'; // বাংলা (ভারত) বা bn-BD সেট করা যাবে
+                utterance.rate = 0.8;    // বাচ্চাদের বোঝার সুবিধার্থে গতি কিছুটা ধীর করা হয়েছে
+                utterance.pitch = 1.1;   // গলার স্বর কিছুটা মিষ্টি বা বাচ্চার মতো করার জন্য
+
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("দুঃখিত, আপনার ব্রাউজারটি অডিও সাপোর্ট করছে না।");
+            }
+        }
+    </script>
+
+</body>
+</html>
