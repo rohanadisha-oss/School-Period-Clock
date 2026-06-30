@@ -3,129 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>সহজে বাংলা কারচিহ্ন শিখি</title>
+    <title>শিশুদের ম্যাজিক রঙ খেলা (সব কার-যুক্ত বর্ণ)</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background-color: #e0f2fe; /* নরম হালকা নীল ব্যাকগ্রাউন্ড */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
             margin: 0;
             padding: 20px;
-        }
-
-        h1 {
-            color: #2c3e50;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-            text-align: center;
-        }
-
-        p {
-            color: #7f8c8d;
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            max-width: 1000px;
-        }
-
-        .card {
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            width: 120px;
-            height: 140px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid transparent;
-        }
-
-        .card:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            border-color: #00a8cc;
-            background-color: #f0fcfc;
-        }
-
-        .letter {
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: #008080;
             user-select: none;
         }
 
-        /* বাচ্চাদের জন্য আকর্ষণীয় রঙের বর্ডার */
-        .card:nth-child(1n) { border-bottom: 6px solid #ff6b6b; }
-        .card:nth-child(2n) { border-bottom: 6px solid #4dadf7; }
-        .card:nth-child(3n) { border-bottom: 6px solid #32b67a; }
-        .card:nth-child(4n) { border-bottom: 6px solid #f7b731; }
-        .card:nth-child(5n) { border-bottom: 6px solid #a55eea; }
-
-        /* স্পিকার আইকন */
-        .speaker-icon {
-            font-size: 1rem;
-            color: #bdc3c7;
-            margin-top: 5px;
+        h1 {
+            color: #0369a1;
+            margin-bottom: 5px;
         }
-        .card:hover .speaker-icon {
-            color: #00a8cc;
+
+        .tip {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #334155;
+            text-align: center;
+        }
+
+        /* Selection Toolbar Container */
+        .selector-container {
+            background: white;
+            padding: 15px;
+            border-radius: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            max-width: 850px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border: 3px solid #7dd3fc;
+        }
+
+        .selector-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #64748b;
+            margin-bottom: 2px;
+        }
+
+        /* Scrollable Row Design */
+        .scroll-row {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 5px 2px;
+            white-space: nowrap;
+        }
+
+        /* Custom Scrollbar for modern look */
+        .scroll-row::-webkit-scrollbar {
+            height: 6px;
+        }
+        .scroll-row::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .btn {
+            font-size: 20px;
+            font-weight: bold;
+            padding: 8px 16px;
+            background-color: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #f0f9ff;
+            transform: translateY(-1px);
+        }
+
+        .btn.active {
+            background-color: #0284c7;
+            color: white;
+            border-color: #0369a1;
+        }
+
+        /* Canvas Workspace */
+        .canvas-container {
+            position: relative;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 5px solid #0284c7;
+        }
+
+        canvas {
+            display: block;
+            cursor: pointer;
+        }
+
+        /* Controls Toolbar */
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-top: 20px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: bold;
+            color: #374151;
+            font-size: 18px;
+        }
+
+        input[type="color"] {
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            background: none;
+        }
+
+        .clear-btn {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .clear-btn:hover {
+            background-color: #dc2626;
         }
     </style>
 </head>
 <body>
 
-    <h1>এসো বাংলা কারচিহ্ন শিখি! 🌟</h1>
-    <p>যেকোনো অক্ষরের ওপর ক্লিক করে তার উচ্চারণ শোনো</p>
+    <h1>ম্যাজিক রঙ মেলা! 🎨✨</h1>
+    <p class="tip">অক্ষর ও কার চিহ্ন বেছে নিয়ে ভেতরের ফাঁকা জায়গায় ম্যাজিক রঙ করো!</p>
 
-    <div class="container">
-        <div class="card" onclick="speak('কা', 'ক আকারে কা')"><div class="letter">কা</div><div class="speaker-icon">🔊</div></div>
-        <div class="card" onclick="speak('কি', 'ক রসই কারে কি')"><div class="letter">কি</div><div class="speaker-icon">🔊</div></div>
-        <div class="card" onclick="speak('কী', 'ক দীর্ঘই কারে কী')"><div class="letter">কী</div><div class="speaker-icon">🔊</div></div>
-        <div class="card" onclick="speak('কু', 'ক রসু কারে কু')"><div class="letter">কু</div><div class="speaker-icon">🔊</div></div>
-        <div class="card" onclick="speak('কূ', 'ক দীর্ঘু কারে কূ')"><div class="letter">কূ</div><div class="speaker-icon">🔊</div></div>
-        <div class="card" onclick="speak('কৃ', 'ক ঋ কারে কৃ')"><div class="letter">কৃ</div><div class="speaker-icon">🔊</div></div>
-        <div class="card" onclick="speak('কে', 'ক এ কারে কে')"><div class="letter">কে</div><div class="speaker-icon">🔊</div></div>
-        <div class="card" onclick="speak('কৈ', 'ক ওই কারে কৈ')"><div class="letter">কৈ</div><div class="speaker-icon">🔊</div></div>
-        <div class="card" onclick="speak('কো', 'ক ও কারে কো')"><div class="letter">কো</div><div class="speaker-icon">🔊</div></div>
-        <div class="card" onclick="speak('কৌ', 'ক ঔ কারে কৌ')"><div class="letter">কৌ</div><div class="speaker-icon">🔊</div></div>
+    <div class="selector-container">
+        <div>
+            <div class="selector-title">১. ব্যঞ্জনবর্ণ বেছে নাও:</div>
+            <div class="scroll-row" id="bornomalaBar"></div>
+        </div>
+        <div>
+            <div class="selector-title">২. কার চিহ্ন বেছে নাও:</div>
+            <div class="scroll-row" id="karBar"></div>
+        </div>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="paintCanvas" width="550" height="400"></canvas>
+    </div>
+
+    <div class="controls">
+        <div class="control-group">
+            <label for="colorPicker">রঙ পরিবর্তন:</label>
+            <input type="color" id="colorPicker" value="#ff4757">
+        </div>
+        <button class="clear-btn" id="clearBtn">সব মুছে ফেলো</button>
     </div>
 
     <script>
-        function speak(text, spelling) {
-            // যদি ব্রাউজার স্পিচ সাপোর্ট করে
-            if ('speechSynthesis' in window) {
-                // আগের কোনো সাউন্ড চালু থাকলে তা বন্ধ করবে
-                window.speechSynthesis.cancel();
+        // ব্যঞ্জনবর্ণের তালিকা
+        const consonants = [
+            'ক', 'খ', 'গ', 'ঘ', 'ঙ', 'চ', 'ছ', 'জ', 'ঝ', 'ঞ', 
+            'ট', 'ঠ', 'ড', 'ঢ', 'ণ', 'ত', 'থ', 'দ', 'ধ', 'ন', 
+            'প', 'ফ', 'ব', 'ভ', 'ম', 'য', 'র', 'ল', 'শ', 'ষ', 
+            'স', 'হ', 'ড়', 'ঢ়', 'য়'
+        ];
 
-                // প্রথমে বানান করে বলবে (যেমন: ক আকারে কা), তারপর মূল উচ্চারণ বলবে
-                let textToSpeak = spelling + ". " + text;
-                let utterance = new SpeechSynthesisUtterance(textToSpeak);
-                
-                utterance.lang = 'bn-IN'; // বাংলা (ভারত) বা bn-BD সেট করা যাবে
-                utterance.rate = 0.8;    // বাচ্চাদের বোঝার সুবিধার্থে গতি কিছুটা ধীর করা হয়েছে
-                utterance.pitch = 1.1;   // গলার স্বর কিছুটা মিষ্টি বা বাচ্চার মতো করার জন্য
+        // কার চিহ্নের তালিকা (ম্যাপিং সহ)
+        const karList = [
+            { display: 'া (আ-কার)', value: 'া' },
+            { display: 'ি (ই-কার)', value: 'ি' },
+            { display: 'ী (ঈ-কার)', value: 'ী' },
+            { display: 'ু (উ-কার)', value: 'ু' },
+            { display: 'ূ (ঊ-কার)', value: 'ূ' },
+            { display: 'ৃ (ঋ-কার)', value: 'ৃ' },
+            { display: 'ে (এ-কার)', value: 'ে' },
+            { display: 'ৈ (ঐ-কার)', value: 'ৈ' },
+            { display: 'ো (ও-কার)', value: 'ো' },
+            { display: 'ৌ (ঔ-কার)', value: 'ৌ' }
+        ];
 
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert("দুঃখিত, আপনার ব্রাউজারটি অডিও সাপোর্ট করছে না।");
+        let selectedConsonant = consonants[0];
+        let selectedKar = karList[0].value;
+        
+        const canvas = document.getElementById('paintCanvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const colorPicker = document.getElementById('colorPicker');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Generate Consonant Buttons
+        const bornomalaBar = document.getElementById('bornomalaBar');
+        consonants.forEach((char, index) => {
+            const btn = document.createElement('button');
+            btn.textContent = char;
+            btn.classList.add('btn');
+            if (index === 0) btn.classList.add('active');
+            
+            btn.addEventListener('click', () => {
+                bornomalaBar.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedConsonant = char;
+                resetCanvas();
+            });
+            bornomalaBar.appendChild(btn);
+        });
+
+        // Generate Kar Buttons
+        const karBar = document.getElementById('karBar');
+        karList.forEach((kar, index) => {
+            const btn = document.createElement('button');
+            btn.textContent = kar.display;
+            btn.classList.add('btn');
+            if (index === 0) btn.classList.add('active');
+            
+            btn.addEventListener('click', () => {
+                karBar.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedKar = kar.value;
+                resetCanvas();
+            });
+            karBar.appendChild(btn);
+        });
+
+        // Current combined text function
+        function getCombinedText() {
+            return selectedConsonant + selectedKar;
+        }
+
+        // Draw character border template
+        function drawBackgroundLetter() {
+            ctx.save();
+            ctx.font = "bold 230px 'Segoe UI', Arial, sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            
+            // কালো স্পষ্ট বর্ডার
+            ctx.strokeStyle = "#0f172a"; 
+            ctx.lineWidth = 7;
+            ctx.strokeText(getCombinedText(), canvas.width / 2, canvas.height / 2);
+            ctx.restore();
+        }
+
+        function resetCanvas() {
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            drawBackgroundLetter();
+        }
+
+        function hexToRgb(hex) {
+            const bigint = parseInt(hex.slice(1), 16);
+            return {
+                r: (bigint >> 16) & 255,
+                g: (bigint >> 8) & 255,
+                b: bigint & 255
+            };
+        }
+
+        // Flood Fill Auto-Select Area Algorithm
+        function floodFill(startX, startY, fillColor) {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+            const width = canvas.width;
+            const height = canvas.height;
+
+            const targetIndex = (startY * width + startX) * 4;
+            const targetR = data[targetIndex];
+            const targetG = data[targetIndex + 1];
+            const targetB = data[targetIndex + 2];
+
+            if (targetR === fillColor.r && targetG === fillColor.g && targetB === fillColor.b) return;
+            if (targetR < 50 && targetG < 50 && targetB < 50) return;
+
+            const queue = [[startX, startY]];
+
+            while (queue.length > 0) {
+                const [x, y] = queue.shift();
+                const idx = (y * width + x) * 4;
+
+                if (data[idx] === targetR && data[idx+1] === targetG && data[idx+2] === targetB) {
+                    data[idx] = fillColor.r;
+                    data[idx+1] = fillColor.g;
+                    data[idx+2] = fillColor.b;
+                    data[idx+3] = 255;
+
+                    if (x > 0) queue.push([x - 1, y]);
+                    if (x < width - 1) queue.push([x + 1, y]);
+                    if (y > 0) queue.push([x, y - 1]);
+                    if (y < height - 1) queue.push([x, y + 1]);
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        function handleFillEvent(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const x = Math.floor(clientX - rect.left);
+            const y = Math.floor(clientY - rect.top);
+
+            if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
+                const chosenColor = hexToRgb(colorPicker.value);
+                floodFill(x, y, chosenColor);
             }
         }
-    </script>
 
+        // Mouse and Touch Event Listeners
+        canvas.addEventListener('mousedown', handleFillEvent);
+        canvas.addEventListener('touchstart', (e) => { 
+            e.preventDefault(); 
+            handleFillEvent(e); 
+        });
+
+        clearBtn.addEventListener('click', resetCanvas);
+
+        window.onload = () => {
+            resetCanvas();
+        };
+    </script>
 </body>
 </html>
